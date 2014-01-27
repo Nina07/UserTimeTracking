@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+<fieldset><center><br>
+<h3><u>Welcome <%=@user.name %></u></h3>
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @user.role %>
+</p>
+
+<p>
+	<% a=@user.user_times.last.arrival_time.localtime %>
+	    <% if a.strftime("%I:%M:%S:%z")>"(10.00.00+0530)" %>
+	      	<font color="red" , size="5px" ><%="You Are Late Mister"%></font>
+	    <% else %>
+	      	<h4><font color="green", size="5px" ><%= "Keep up the good work" %></font></h4>
+	    <% end %>
+</p>
+<fieldset><center><h3><u>Analytics for <%= @user.name %></u></h3></center>
+
+<h4>Here's the Average time for the you <b><%= "#{@avrg_time}" %></b></h4><br>
+</fieldset>
+<%= link_to 'Edit', edit_user_path(@user) %> 
+<%= link_to 'Logout', users_path %>
+
+ </center></fieldset>

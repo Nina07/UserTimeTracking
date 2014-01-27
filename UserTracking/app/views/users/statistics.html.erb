@@ -1,0 +1,45 @@
+
+<fieldset>
+  <center><h1>Users Statistics</h1></center>
+  <center><table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Number of late arrivals</th>
+          <th>Average arrival time</th>
+          <th>Role</th>
+        
+        </tr>
+      </thead> 
+
+      <tbody>
+        <% @users.sort_by!{|m|m.name.downcase} %>
+        <% @users.each do |user| %>
+          <tr>
+              <td><%= user.name %></td>
+                <% a=user.user_times.map{|e| e.arrival_time.localtime} %>
+                <% count=0 %>
+                <% for i in 0..a.length-1 %>
+                    <% if a[i].strftime("%I:%M:%S:%z")>("10.00.00+0530") %>
+                      			<% count=count+1 %>
+                    <% end %>
+                <% end %>
+
+              <td><%= count %></td>
+
+              <% b=user.user_times.map{|e|e.arrival_time.localtime.strftime("%H:%M")} %>
+              <td><%= number_with_precision(user.avg_times(b) , :precision => 2 ) %>
+              <td><% if user.role == true %>
+                    <%= "Admin" %>
+                <% else %>  
+                     <%= "Employee" %>
+                 <%end%>
+            </td>
+           
+          </tr>
+        <% end %>
+      </tbody> 
+  </table></center><br>
+  <center><%= link_to "Back", users_path %><br>
+  <br><%= button_to "Sort", users_statistics_path %></center>
+</fieldset>

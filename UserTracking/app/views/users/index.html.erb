@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<br>
+ <center><h1> Welcome to User Tracking Application </h1></cemter><br>
+
+<fieldset>
+  <%= form_tag(:action=>'login') do %>
+<h2>Members Login</h2>
+    <%= label_tag(:name,    "Name:  ") %>
+    <%= text_field_tag(:name) %>
+  <br><br>
+    
+   <%= submit_tag 'Login'%>
+  <% end %>
+
+<h2>New User? Sign Up here </h2>
+<%= button_to "New User", new_user_path%>
+</fieldset>
+
+<fieldset>
+  <h1>Users Arrival Time Sheet</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>User Login Time</th>
+        <th>Role</th>
+      
+      </tr>
+    </thead> 
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to "#{user.name}" , user_path(user.id) %></td>
+          <td><%= user.user_times.last.arrival_time.localtime %></td>
+          <td><% if user.role == true %>
+                  <%= "Admin" %>
+              <% else %>  
+                   <%= "Employee" %>
+               <%end%>
+          </td>
+         
+        </tr>
+      <% end %>
+    </tbody> 
+
+  </table>
+  <h3><%= link_to "Analytics" , users_analytics_path, :method => :analytics %></h3>
+  <h3><%= link_to "Statistics" , users_statistics_path, :method => :statistics %></h3>
+</fieldset>
