@@ -1,6 +1,5 @@
 <p id="notice"><%= notice %></p>
-<br>
- <center><h1> Welcome to User Tracking Application </h1></cemter><br>
+<center><h1> <u>Welcome to User Tracking Application </u></h1></cemter><br>
 
 <fieldset>
   <%= form_tag(:action=>'login') do %>
@@ -8,12 +7,17 @@
     <%= label_tag(:name,    "Name:  ") %>
     <%= text_field_tag(:name) %>
   <br><br>
-    
+
+  <!-- <h2>Administrator Login</h2>
+    <%= label_tag(:name,    "Name:  ") %>
+    <%= text_field_tag(:name) %>
+  <br><br>
+   -->  
    <%= submit_tag 'Login'%>
   <% end %>
 
-<h2>New User? Sign Up here </h2>
-<%= button_to "New User", new_user_path%>
+<!-- <h2>New User? Sign Up here </h2>
+<%= button_to "New User", new_user_path%> -->
 </fieldset>
 
 <fieldset>
@@ -47,4 +51,5 @@
   </table>
   <h3><%= link_to "Analytics" , users_analytics_path, :method => :analytics %></h3>
   <h3><%= link_to "Statistics" , users_statistics_path, :method => :statistics %></h3>
+<p><%= will_paginate @users %></p>
 </fieldset>

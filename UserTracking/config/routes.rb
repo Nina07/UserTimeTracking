@@ -14,6 +14,8 @@ UserTracking::Application.routes.draw do
    post 'users/new'
 
    post 'users/statistics'
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

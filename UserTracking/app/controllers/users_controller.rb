@@ -1,14 +1,15 @@
 class UsersController < ApplicationController
+  #layout "admin"
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    #@user_grid=initialize_grid(User)
     time_range=Time.now.midnight..Time.now.end_of_day
     @usertimes=UserTime.where(:arrival_time=>time_range)
     @u=@usertimes.map{|e| e.user_id}
     @users=User.find(@u)
+    @users = User.paginate :page=>params[:page],:per_page=>2
   end
 
   # GET /users/1
@@ -19,6 +20,11 @@ class UsersController < ApplicationController
     
     #puts "this is #{@user.id}"
     @user=User.find(params[:id])
+    # if @user.role==1
+    #   render layout: "admin"
+    # else
+    #   redirect_to user_path(@user)
+    # end
     @avrg_time=avg_times(@user.user_times.map{|e|e.arrival_time.localtime.strftime("%H:%M")})
 
   end
@@ -38,12 +44,17 @@ class UsersController < ApplicationController
   end
 
   def login
+    @users=User.all
     puts "blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    if  @user=User.find_by_name(params[:name])
+    @user=User.find_by_name(params[:name])
+    if @user.present? && @user.role==true
       session[:user_id]=@user.id
       @user_time=UserTime.new
       @user_time=@user.user_times.create(:arrival_time=>DateTime.now)
       #puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+      #redirect_to user_path(@user)
+      render layout: "admin"
+    elsif @user.present?
       redirect_to user_path(@user)
     else
       redirect_to users_path, :notice=> "You are not registered. Please sign up first."
@@ -116,12 +127,25 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { head :no_content }
+     puts "mwahahahahahaha @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+    @user=User.find(params[:id])
+    if @user.present?
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to users_login }
+        format.json { head :no_content }
+      end
+    else
+      puts "noooooooooooooooooooooooooooooooooo"
+      #redirect_to users_login_path, :notice=>"yu have entered an invalid id"
     end
   end
+
+  # def del
+  #   puts "mwahahahahahaha @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+  #   @user=User.find(params[:id])
+
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

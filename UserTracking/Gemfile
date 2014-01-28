@@ -16,6 +16,8 @@ gem 'wice_grid'
 
 gem 'awesome_print'
 
+gem 'will_paginate','>=3.0.pre'
+
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 

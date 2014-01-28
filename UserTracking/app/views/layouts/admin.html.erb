@@ -1,0 +1,45 @@
+
+<%= yield %>
+<body style="background-color:SILVER;">
+<fieldset><center><h2>Welcome <%= @user.name %></h2></center></fieldset>
+
+</body>
+<fieldset><center><h3>List of all Users</h3>
+<table border="1">
+    <thead>
+      <tr>
+      	<th>User ID</th>
+        <th>Name</th>
+        <th>User Login Time</th>
+        <th>Role</th>
+      
+      </tr>
+    </thead> 
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+        	<td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.user_times.last.arrival_time.localtime %></td>
+          <td><% if user.role == true %>
+                  <%= "Admin" %>
+              <% else %>  
+                   <%= "Employee" %>
+               <%end%>
+          </td>
+         
+        </tr>
+      <% end %>
+    </tbody> 
+
+  </table><br>
+  <%= form_tag("users/", method:"delete") do %>
+	  <%= label_tag(:id, "User u want to delete") %>
+	  <%= text_field_tag(:id) %><br>
+	  <br><%= button_to "Delete" , id: @user.id%>
+	<% end %>
+  <br><br>
+<%= link_to "Logout", users_path %>
+</center>
+</fieldset>

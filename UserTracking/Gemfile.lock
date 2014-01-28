@@ -109,6 +109,7 @@ GEM
       json (>= 1.8.0)
     wice_grid (3.4.2)
       kaminari (>= 0.13.0)
+    will_paginate (3.0.5)
 
 PLATFORMS
   ruby
@@ -125,3 +126,4 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   wice_grid
+  will_paginate (>= 3.0.pre)
